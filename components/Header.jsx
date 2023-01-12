@@ -10,11 +10,19 @@ export function Header() {
   const [startDate, setStartDate] = React.useState(new Date())
   const [endDate, setEndDate] = React.useState(new Date(0))
 
+  const handleSelect = (ranges) => {
+    console.log('ranges', ranges)
+    setStartDate(ranges.Selection.startDate)
+    setEndDate(ranges.Selection.endDate)
+  }
+
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
     key: 'Selection'
   }
+
+
 
   return (
     <header className='sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-5 md:px-10'>
@@ -53,6 +61,9 @@ export function Header() {
         <div>
           <DateRangePicker
             ranges={[selectionRange]}
+            minDate={new Date()}
+            rangeColors={["#FD5B61"]}
+            onChange={handleSelect}
           />
         </div>
       )}
