@@ -4,12 +4,14 @@ import { MagnifyingGlassIcon, GlobeAltIcon, Bars3Icon, UserIcon, UserCircleIcon,
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
+import { useRouter } from 'next/dist/client/router'
 
-export function Header() {
+export function Header({ placeholder }) {
   const [searchInput, setSearchInput] = React.useState('')
   const [startDate, setStartDate] = React.useState(new Date())
   const [endDate, setEndDate] = React.useState(new Date(0))
   const [noOfGuests, setNoOfGuests] = React.useState(1)
+  const router = useRouter()
 
   const handleSelect = (ranges) => {
     console.log('ranges', ranges)
@@ -19,6 +21,18 @@ export function Header() {
 
   const resetInput = () => {
     setSearchInput("")
+  }
+
+  const search = () => {
+    router.push({
+      pathname: '/search',
+      query: {
+        location: searchInput,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        noOfGuests,
+      }
+    })
   }
 
   const selectionRange = {
@@ -32,7 +46,7 @@ export function Header() {
   return (
     <header className='sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-5 md:px-10'>
       {/* Left */}
-      <div className='relative flex items-center h-10 cursor-pointer'>
+      <div onClick={() => router.push('/')} className='relative flex items-center h-10 cursor-pointer'>
         <Image
           src='https://links.papareact.com/qd3'
           layout="fill"
@@ -45,8 +59,9 @@ export function Header() {
         <input
           value={searchInput}
           onChange={(event) => setSearchInput(event.target.value)}
-          type="text" placeholder='Start your search'
+          type="text"
           className='flex-grow pl-5 bg-transparent outline-none text-sm text-gray-600 placeholder-gray-400'
+          placeholder={placeholder || 'Start tour search'}
         />
         <MagnifyingGlassIcon className='hidden md:inline-flex h-8 bg-red-400 text-white rounded-full p-2 cursor-pointer md:mx-2' />
       </div>
@@ -83,7 +98,12 @@ export function Header() {
           </div>
           <div className='flex'>
             <button onClick={resetInput} className='flex-grow text-gray-500'>Cancel</button>
-            <button className='flex-grow text-red-500'>Search</button>
+            <button
+              onClick={search}
+              className='flex-grow text-red-500'
+            >
+              Search
+            </button>
           </div>
         </div>
       )}

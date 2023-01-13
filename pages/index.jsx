@@ -66,6 +66,8 @@ export default function Home({ exploreData, cardsData }) {
   )
 }
 
+//https://play.tailwindcss.com/F6G5XxxWII
+
 export async function getStaticProps() {
 
   const exploreData = [
