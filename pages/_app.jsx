@@ -3,6 +3,7 @@ import 'tailwindcss/tailwind.css'
 import Router from 'next/router'
 
 import ProgressBar from '@badrap/bar-of-progress'
+import { BrowserRouter } from 'react-router-dom';
 
 const progress = new ProgressBar({
   size: 4,
